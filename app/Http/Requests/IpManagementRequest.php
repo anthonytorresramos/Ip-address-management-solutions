@@ -14,8 +14,8 @@ class IpManagementRequest extends FormRequest
     public function rules()
     {
         return [
-            'mac_address' => 'required|string|max:255',
-            'label' => 'required|string|max:255',
+            'mac_address' => 'required|string|max:255|unique:ip_management,mac_address,' . $this->route('id'),
+            'label' => 'nullable|string|max:255',
         ];
     }
 }

@@ -1,3 +1,4 @@
+<!-- resources/js/CustomComponents/JsTable.vue -->
 <template>
     <div class="container p-4 mx-auto">
         <table class="min-w-full bg-white">
@@ -14,8 +15,8 @@
             <tbody>
                 <tr v-for="(row, index) in data" :key="index">
                     <td class="px-4 py-2 text-left border-b">{{ row.mac_address }}</td>
-                    <td class="px-4 py-2 text-left border-b">{{ row.label }}</td>
-                    <td class="px-4 py-2 text-left border-b">{{ row.user ? row.user.email : 'N/A' }}</td>
+                    <td class="px-4 py-2 text-left border-b">{{ row.label || '- not set -' }}</td>
+                    <td class="px-4 py-2 text-left border-b">{{ row.user.email }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ formatDate(row.created_at) }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ formatDate(row.updated_at) }}</td>
                     <td class="px-4 py-2 text-left border-b">

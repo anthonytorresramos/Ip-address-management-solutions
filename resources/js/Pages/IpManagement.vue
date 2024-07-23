@@ -17,7 +17,8 @@
                     </div>
                     <JsTable :data="tableData" @update="showUpdateModal" />
                     <JsModal :visible="isModalVisible" :title="modalTitle" :confirmText="modalButtonText"
-                        :formData="currentRow" :isUpdate="isUpdate" @cancel="hideModal" @confirm="handleConfirm" />
+                        :formData="currentRow" :isUpdate="isUpdate" @cancel="hideModal" @confirm="handleConfirm"
+                        ref="modal" />
                 </div>
             </div>
         </div>
@@ -38,6 +39,8 @@ const modalButtonText = ref('');
 const currentRow = ref({});
 const currentUser = ref({});
 const isUpdate = ref(false);
+
+const modal = ref(null);
 
 // Fetch the API token and use it to fetch data
 const fetchTokenAndData = async () => {
@@ -74,6 +77,7 @@ const showCreateModal = () => {
     currentRow.value = { mac_address: '', label: '' }; // Ensure currentRow has default values for required fields
     isUpdate.value = false;
     isModalVisible.value = true;
+    modal.value.clearErrors();
 };
 
 const showUpdateModal = (row) => {
@@ -82,6 +86,7 @@ const showUpdateModal = (row) => {
     currentRow.value = { ...row }; // Ensure the id is included in currentRow
     isUpdate.value = true;
     isModalVisible.value = true;
+    modal.value.clearErrors();
 };
 
 const hideModal = () => {
@@ -116,9 +121,15 @@ const handleConfirm = async (updatedRow) => {
             },
         });
         tableData.value = response.data;
+
+        hideModal(); // Close the modal after successful operation
     } catch (error) {
-        console.error('Error saving data:', error);
+        if (error.response && error.response.status === 422) {
+            modal.value.errors.mac_address = error.response.data.errors.mac_address ? error.response.data.errors.mac_address[0] : null;
+            modal.value.errors.label = error.response.data.errors.label ? error.response.data.errors.label[0] : null;
+        } else {
+            console.error('Error saving data:', error);
+        }
     }
-    hideModal();
 };
 </script>
