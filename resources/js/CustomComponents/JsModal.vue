@@ -8,9 +8,15 @@
             </div>
             <div class="mt-4">
                 <form @submit.prevent="confirm">
-                    <div v-for="(value, key) in formData" :key="key" class="mb-4">
-                        <label :for="key" class="block text-sm font-medium text-gray-700">{{ key }}</label>
-                        <input v-model="formData[key]" :id="key" type="text"
+                    <div class="mb-4">
+                        <label for="mac_address" class="block text-sm font-medium text-gray-700">Mac Address</label>
+                        <input v-model="formData.mac_address" id="mac_address" type="text"
+                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm sm:text-sm"
+                            :class="{ 'bg-gray-200 cursor-not-allowed': isUpdate }" :disabled="isUpdate" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="label" class="block text-sm font-medium text-gray-700">Label</label>
+                        <input v-model="formData.label" id="label" type="text"
                             class="block w-full mt-1 border-gray-300 rounded-md shadow-sm sm:text-sm" />
                     </div>
                     <div class="flex justify-end mt-6">
@@ -46,6 +52,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    isUpdate: {
+        type: Boolean,
+        required: true,
+    },
 });
 
 const emit = defineEmits(['cancel', 'confirm']);
@@ -55,6 +65,6 @@ const cancel = () => {
 };
 
 const confirm = () => {
-    emit('confirm', formData);
+    emit('confirm', { mac_address: props.formData.mac_address, label: props.formData.label });
 };
 </script>
