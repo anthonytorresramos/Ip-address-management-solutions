@@ -21,4 +21,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/ip-management', function () {
+        return Inertia::render('IpManagement');
+    })->name('ip-management');
 });
