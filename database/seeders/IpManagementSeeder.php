@@ -4,32 +4,46 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\IpManagement;
+use App\Models\Audit;
+use App\Models\User;
+use Str;
 
 class IpManagementSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        IpManagement::create([
-            'mac_address' => '00:1A:2B:3C:4D:5E',
-            'label' => 'Device 1',
-            'user_id' => 1, // Assuming user with ID 1 exists
-        ]);
+        // Get all users
+        $users = User::all();
 
-        IpManagement::create([
-            'mac_address' => '11:22:33:44:55:66',
-            'label' => 'Device 2',
-            'user_id' => 1, // Assuming user with ID 1 exists
-        ]);
+        for ($i = 0; $i < 30; $i++) {
+            $user = $users->random();
 
-        IpManagement::create([
-            'mac_address' => 'AA:BB:CC:DD:EE:FF',
-            'label' => 'Device 3',
-            'user_id' => 1, // Assuming user with ID 1 exists
-        ]);
+            $ipManagement = IpManagement::create([
+                'mac_address' => 'MAC' . Str::random(5),
+                'label' => 'Label' . $i,
+                'user_id' => $user->id,
+            ]);
+
+            // Log the creation action
+            Audit::create([
+                'ip_management_id' => $ipManagement->id,
+                'user_id' => $user->id,
+                'action' => 'created',
+            ]);
+
+            // Optionally, add some updates to the audit log
+            for ($j = 0; $j < rand(1, 5); $j++) {
+                $updatingUser = $users->random();
+
+                $ipManagement->update(['label' => 'UpdatedLabel' . Str::random(5), 'user_id' => $updatingUser->id]);
+
+                // Log the update action
+                Audit::create([
+                    'ip_management_id' => $ipManagement->id,
+                    'user_id' => $updatingUser->id,
+                    'action' => 'updated',
+                ]);
+            }
+        }
     }
 }

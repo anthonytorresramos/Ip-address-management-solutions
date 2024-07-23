@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\IpManagement;
+use App\Models\Audit;
 use Illuminate\Support\Facades\Auth;
 
 class IpManagementService
@@ -22,16 +23,55 @@ class IpManagementService
 
         $ipManagement->save();
 
+        // Log the creation action with the current state
+        Audit::create([
+            'ip_management_id' => $ipManagement->id,
+            'user_id' => Auth::id(),
+            'action' => 'created',
+            'label' => $ipManagement->label,
+        ]);
+
         return $ipManagement;
     }
 
     public function updateIpManagement($id, $data)
     {
         $ipManagement = IpManagement::findOrFail($id);
-        $ipManagement->label = $data['label'];
+        $ipManagement->label = $data['label'] ;
         $ipManagement->user_id = Auth::id();
         $ipManagement->save();
 
-        return IpManagement::with('user')->findOrFail($id); // This ensures the updated data with relationships is returned
+        // Log the update action with the current state
+        Audit::create([
+            'ip_management_id' => $ipManagement->id,
+            'user_id' => Auth::id(),
+            'action' => 'updated',
+            'label' => $ipManagement->label,
+        ]);
+
+        return IpManagement::with('user')->findOrFail($id);
+    }
+
+    public function getAllAuditLogs()
+    {
+        return Audit::with(['ipManagement', 'user'])
+            ->orderByRaw("FIELD(action, 'created', 'updated'), created_at desc")
+            ->get();
+    }
+
+    public function getAuditLogsByUser($userId)
+    {
+        return Audit::with(['ipManagement', 'user'])
+            ->where('user_id', $userId)
+            ->orderByRaw("FIELD(action, 'created', 'updated'), created_at desc")
+            ->get();
+    }
+
+    public function getAuditLogsByMacAddress($macAddressId)
+    {
+        return Audit::with(['ipManagement', 'user'])
+            ->where('ip_management_id', $macAddressId)
+            ->orderByRaw("FIELD(action, 'created', 'updated'), created_at desc")
+            ->get();
     }
 }

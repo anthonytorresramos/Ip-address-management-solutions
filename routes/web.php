@@ -27,6 +27,10 @@ Route::middleware([
         return Inertia::render('IpManagement');
     })->name('ip-management');
 
+    Route::get('/audit-logs', function () {
+        return Inertia::render('AuditLogs');
+    })->name('audit-logs');
+
 
 
 });

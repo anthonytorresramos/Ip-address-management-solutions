@@ -16,7 +16,7 @@
                 <tr v-for="(row, index) in data" :key="index">
                     <td class="px-4 py-2 text-left border-b">{{ row.mac_address }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ row.label || '- not set -' }}</td>
-                    <td class="px-4 py-2 text-left border-b">{{ row.user.email }}</td>
+                    <td class="px-4 py-2 text-left border-b">{{ row.user?.email }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ formatDate(row.created_at) }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ formatDate(row.updated_at) }}</td>
                     <td class="px-4 py-2 text-left border-b">

@@ -17,15 +17,15 @@ class IpManagement extends Model
         'user_id',
     ];
 
-    protected $appends = ['user_email'];
+
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function getUserEmailAttribute()
+    public function audits()
     {
-        return $this->user->email;
+        return $this->hasMany(Audit::class);
     }
 }

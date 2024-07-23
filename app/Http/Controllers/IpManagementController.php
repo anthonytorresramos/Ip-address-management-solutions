@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IpManagementRequest;
 use App\Services\IpManagementService;
+use Illuminate\Http\Request;
 
 class IpManagementController extends Controller
 {
@@ -21,15 +22,26 @@ class IpManagementController extends Controller
 
     public function store(IpManagementRequest $request)
     {
-        $ipManagement = $this->ipManagementService->createIpManagement($request->validated());
-
-        return response()->json($ipManagement, 201);
+        return response()->json($this->ipManagementService->createIpManagement($request->validated()), 201);
     }
 
     public function update(IpManagementRequest $request, $id)
     {
-        $ipManagement = $this->ipManagementService->updateIpManagement($id, $request->validated());
+        return response()->json($this->ipManagementService->updateIpManagement($id, $request->validated()));
+    }
 
-        return response()->json($ipManagement);
+    public function getAllAuditLogs()
+    {
+        return response()->json($this->ipManagementService->getAllAuditLogs());
+    }
+
+    public function getAuditLogsByUser($userId)
+    {
+        return response()->json($this->ipManagementService->getAuditLogsByUser($userId));
+    }
+
+    public function getAuditLogsByMacAddress($macAddressId)
+    {
+        return response()->json($this->ipManagementService->getAuditLogsByMacAddress($macAddressId));
     }
 }
