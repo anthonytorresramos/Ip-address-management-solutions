@@ -1,66 +1,111 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## IP Address Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Introduction
 
-## About Laravel
+This project is an IP Address Management System built with Laravel and Vue.js. It includes features for managing IP addresses and audit logging for tracking changes.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   **Backend**: Laravel 10.x
+-   **Frontend**: Vue 3 with Composition API
+-   **Authentication**: Laravel Jetstream with Sanctum
+-   **Testing**: Pest PHP
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Features
 
-## Learning Laravel
+-   Manage IP addresses with optional labels.
+-   Track changes to IP addresses and labels via audit logs.
+-   Ensure IP addresses are unique.
+-   Fetch and filter audit logs by user and IP address.
+-   Responsive UI with Vue 3 and Tailwind CSS.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1.  **Clone the Repository**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clonme https://github.com/anthonytorresramos/ip-management-solution.git
+cd ip-management-solution
+```
 
-## Laravel Sponsors
+2. **Install Dependencies**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+npm install
+```
 
-### Premium Partners
+3. **Setup Environment**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+-   Copy the `.env.example` to `.env` and configure the database and other necessary settings.
 
-## Contributing
+```
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Run Migrations**
+   `php artisan migrate`
 
-## Code of Conduct
+5. **Serve the Application**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan serve
+npm run dev or npm run build
+```
 
-## Security Vulnerabilities
+### Usage
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Frontend
 
-## License
+1.  **Access the Application**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    -   Open your browser and go to `http://localhost:8000` to see the application.
+
+2.  **Managing IP Addresses**
+
+    -   Navigate to the "IP Management" section.
+    -   Use the "Create New Entry" button to add a new IP address.
+    -   Update label but not ip address
+
+3.  **Viewing Audit Logs**
+
+    -   Navigate to the "Audit Logs" section.
+    -   Filter logs by user or IP address.
+    -   Sort logs by columns to see the changes in detail.
+
+#### Running Pest Tests
+
+1.  **Run Tests**
+
+    -   Ensure you have the testing environment configured in your `.env` file.
+    -   Run the following command to execute tests
+
+```bash
+php artisan test tests/CustomTests
+```
+
+**Expected Results**
+
+-   All tests should pass with no errors.
+-   The test suite includes:
+    -   it can create an IP management entry
+    -   it ensures ip_address is unique
+    -   it can update an IP management entry with optional label and ensure ip_address is unchanged
+    -   it can fetch IP management entries
+    -   it can fetch audit logs
+    -   it can fetch audit logs by user
+    -   it can fetch audit logs by ip address
+
+#### API Routes
+
+```php
+These are the routes defined in `api.php`:
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/ip-management', [IpManagementController::class, 'index']);
+    Route::post('/ip-management', [IpManagementController::class, 'store']);
+    Route::put('/ip-management/{id}', [IpManagementController::class, 'update']);
+    Route::get('/audit-logs', [IpManagementController::class, 'getAllAuditLogs']);
+    Route::get('/audit-logs/user/{userId}', [IpManagementController::class, 'getAuditLogsByUser']);
+    Route::get('/audit-logs/ip-address/{ipManagementId}', [IpManagementController::class, 'getAuditLogsByMacAddress']);
+});
+```
