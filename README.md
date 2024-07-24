@@ -24,7 +24,7 @@ This project is an IP Address Management System built with Laravel and Vue.js. I
 1.  **Clone the Repository**
 
 ```bash
-git clonme https://github.com/anthonytorresramos/ip-management-solution.git
+git clone https://github.com/anthonytorresramos/Ip-address-management-solutions.git
 cd ip-management-solution
 ```
 
