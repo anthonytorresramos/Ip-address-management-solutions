@@ -11,9 +11,9 @@
                 <div class="p-6 overflow-hidden bg-white shadow-xl sm:rounded-lg">
                     <div class="flex justify-between mb-4">
                         <div class="flex space-x-2">
-                            <select v-model="selectedMacAddress" @change="filterLogs" class="w-auto p-2 border rounded">
-                                <option value="">All Mac Addresses</option>
-                                <option v-for="mac in macAddresses" :key="mac" :value="mac">{{ mac }}</option>
+                            <select v-model="selectedIpAddress" @change="filterLogs" class="w-auto p-2 border rounded">
+                                <option value="">All Ip Addresses</option>
+                                <option v-for="mac in ipAddresses" :key="mac" :value="mac">{{ mac }}</option>
                             </select>
                             <select v-model="selectedUser" @change="filterLogs" class="w-auto p-2 border rounded">
                                 <option value="">All Users</option>
@@ -24,10 +24,10 @@
                     <table class="min-w-full bg-white">
                         <thead>
                             <tr>
-                                <th @click="sortTable('mac_address')"
+                                <th @click="sortTable('ip_address')"
                                     class="px-4 py-2 text-left border-b cursor-pointer">
-                                    Mac Address
-                                    <span v-if="sortKey === 'mac_address'">
+                                    Ip Address
+                                    <span v-if="sortKey === 'ip_address'">
                                         <span v-if="sortDirection === 'asc'">▲</span>
                                         <span v-else>▼</span>
                                     </span>
@@ -66,7 +66,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(log, index) in paginatedLogs" :key="index">
-                                <td class="px-4 py-2 text-left border-b">{{ log.ip_management.mac_address }}</td>
+                                <td class="px-4 py-2 text-left border-b">{{ log.ip_management.ip_address }}</td>
                                 <td class="px-4 py-2 text-left border-b">{{ log.label }}</td>
                                 <td class="px-4 py-2 text-left border-b">
                                     <span
@@ -108,9 +108,9 @@ import axios from 'axios';
 
 const auditLogs = ref([]);
 const filteredLogs = ref([]);
-const macAddresses = ref([]);
+const ipAddresses = ref([]);
 const users = ref([]);
-const selectedMacAddress = ref('');
+const selectedIpAddress = ref('');
 const selectedUser = ref('');
 const sortKey = ref('');
 const sortDirection = ref('asc');
@@ -145,11 +145,11 @@ const fetchAuditLogs = async () => {
         const userSet = new Set();
 
         response.data.forEach(log => {
-            macSet.add(log.ip_management.mac_address);
+            macSet.add(log.ip_management.ip_address);
             userSet.add(log.user.email);
         });
 
-        macAddresses.value = Array.from(macSet);
+        ipAddresses.value = Array.from(macSet);
         users.value = Array.from(userSet);
     } catch (error) {
         console.error('Error fetching audit logs:', error);
@@ -158,7 +158,7 @@ const fetchAuditLogs = async () => {
 
 const filterLogs = () => {
     filteredLogs.value = auditLogs.value.filter(log => {
-        return (!selectedMacAddress.value || log.ip_management.mac_address === selectedMacAddress.value) &&
+        return (!selectedIpAddress.value || log.ip_management.ip_address === selectedIpAddress.value) &&
             (!selectedUser.value || log.user.email === selectedUser.value);
     });
     sortLogs();

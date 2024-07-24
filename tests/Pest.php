@@ -14,7 +14,8 @@ use Tests\TestCase;
 |
 */
 
-uses(TestCase::class, RefreshDatabase::class)->in('Feature');
+// Use TestCase and RefreshDatabase in both Feature and CustomTests directories
+uses(TestCase::class, RefreshDatabase::class)->in('Feature', 'CustomTests');
 
 /*
 |--------------------------------------------------------------------------

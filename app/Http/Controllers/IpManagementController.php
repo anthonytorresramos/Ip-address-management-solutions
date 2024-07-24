@@ -40,8 +40,8 @@ class IpManagementController extends Controller
         return response()->json($this->ipManagementService->getAuditLogsByUser($userId));
     }
 
-    public function getAuditLogsByMacAddress($macAddressId)
+    public function getAuditLogsByIpAddress($ipAddressId)
     {
-        return response()->json($this->ipManagementService->getAuditLogsByMacAddress($macAddressId));
+        return response()->json($this->ipManagementService->getAuditLogsByIpAddress($ipAddressId));
     }
 }

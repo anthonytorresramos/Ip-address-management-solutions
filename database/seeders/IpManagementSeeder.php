@@ -19,7 +19,7 @@ class IpManagementSeeder extends Seeder
             $user = $users->random();
 
             $ipManagement = IpManagement::create([
-                'mac_address' => 'MAC' . Str::random(5),
+                'ip_address' => 'MAC' . Str::random(5),
                 'label' => 'Label' . $i,
                 'user_id' => $user->id,
             ]);

@@ -10,11 +10,11 @@
             <div class="mt-4">
                 <form @submit.prevent="confirm">
                     <div class="mb-4">
-                        <label for="mac_address" class="block text-sm font-medium text-gray-700">Mac Address</label>
-                        <input v-model="formData.mac_address" id="mac_address" type="text"
+                        <label for="ip_address" class="block text-sm font-medium text-gray-700">Ip Address</label>
+                        <input v-model="formData.ip_address" id="ip_address" type="text"
                             class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             :class="{ 'bg-gray-200 cursor-not-allowed': isUpdate }" :disabled="isUpdate" />
-                        <div v-if="errors.mac_address" class="text-red-600 text-sm">{{ errors.mac_address }}</div>
+                        <div v-if="errors.ip_address" class="text-red-600 text-sm">{{ errors.ip_address }}</div>
                     </div>
                     <div class="mb-4">
                         <label for="label" class="block text-sm font-medium text-gray-700">Label</label>
@@ -65,7 +65,7 @@ const props = defineProps({
 
 const emit = defineEmits(['cancel', 'confirm']);
 
-const errors = reactive({ mac_address: null, label: null });
+const errors = reactive({ ip_address: null, label: null });
 
 const cancel = () => {
     emit('cancel');
@@ -73,11 +73,11 @@ const cancel = () => {
 };
 
 const confirm = () => {
-    emit('confirm', { mac_address: props.formData.mac_address, label: props.formData.label });
+    emit('confirm', { ip_address: props.formData.ip_address, label: props.formData.label });
 };
 
 const clearErrors = () => {
-    errors.mac_address = null;
+    errors.ip_address = null;
     errors.label = null;
 };
 

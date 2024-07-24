@@ -74,7 +74,7 @@ onMounted(fetchTokenAndData);
 const showCreateModal = () => {
     modalTitle.value = 'Create New Entry';
     modalButtonText.value = 'Create';
-    currentRow.value = { mac_address: '', label: '' }; // Ensure currentRow has default values for required fields
+    currentRow.value = { ip_address: '', label: '' }; // Ensure currentRow has default values for required fields
     isUpdate.value = false;
     isModalVisible.value = true;
     modal.value.clearErrors();
@@ -125,7 +125,7 @@ const handleConfirm = async (updatedRow) => {
         hideModal(); // Close the modal after successful operation
     } catch (error) {
         if (error.response && error.response.status === 422) {
-            modal.value.errors.mac_address = error.response.data.errors.mac_address ? error.response.data.errors.mac_address[0] : null;
+            modal.value.errors.ip_address = error.response.data.errors.ip_address ? error.response.data.errors.ip_address[0] : null;
             modal.value.errors.label = error.response.data.errors.label ? error.response.data.errors.label[0] : null;
         } else {
             console.error('Error saving data:', error);

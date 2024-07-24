@@ -4,7 +4,7 @@
         <table class="min-w-full bg-white">
             <thead>
                 <tr>
-                    <th class="px-4 py-2 text-left border-b">Mac Address</th>
+                    <th class="px-4 py-2 text-left border-b">Ip Address</th>
                     <th class="px-4 py-2 text-left border-b">Label</th>
                     <th class="px-4 py-2 text-left border-b">User Email</th>
                     <th class="px-4 py-2 text-left border-b">Created At</th>
@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr v-for="(row, index) in data" :key="index">
-                    <td class="px-4 py-2 text-left border-b">{{ row.mac_address }}</td>
+                    <td class="px-4 py-2 text-left border-b">{{ row.ip_address }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ row.label || '- not set -' }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ row.user?.email }}</td>
                     <td class="px-4 py-2 text-left border-b">{{ formatDate(row.created_at) }}</td>

@@ -12,7 +12,7 @@ class IpManagement extends Model
     protected $table = 'ip_management';
 
     protected $fillable = [
-        'mac_address',
+        'ip_address',
         'label',
         'user_id',
     ];

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ip_management', function (Blueprint $table) {
             $table->id();
-            $table->string('mac_address');
+            $table->string('ip_address');
             $table->string('label');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

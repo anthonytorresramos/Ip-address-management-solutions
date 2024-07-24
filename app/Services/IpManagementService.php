@@ -16,7 +16,7 @@ class IpManagementService
     public function createIpManagement($data)
     {
         $ipManagement = new IpManagement([
-            'mac_address' => $data['mac_address'],
+            'ip_address' => $data['ip_address'],
             'label' => $data['label'],
             'user_id' => Auth::id(),
         ]);
@@ -67,10 +67,10 @@ class IpManagementService
             ->get();
     }
 
-    public function getAuditLogsByMacAddress($macAddressId)
+    public function getAuditLogsByIpAddress($ipAddressId)
     {
         return Audit::with(['ipManagement', 'user'])
-            ->where('ip_management_id', $macAddressId)
+            ->where('ip_management_id', $ipAddressId)
             ->orderByRaw("FIELD(action, 'created', 'updated'), created_at desc")
             ->get();
     }
